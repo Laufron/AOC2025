@@ -42,37 +42,31 @@ def part2():
 
         # Parse ops while retrieving column size
         ops = []
-        column_size = []
+        column_sizes = []
         count = 0
         for c in lines[-1]:
             if c != " ":
                 ops.append(c)
                 if count != 0:
-                    column_size.append(count)
+                    column_sizes.append(count)
                     count = 0
             else:
                 count += 1
-        column_size.append(count + 1)
+        column_sizes.append(count + 1)
 
         buffers = [[] for _ in range(len(ops))]
         buffer_size = len(lines) - 1
 
         # Parsing operation members column wise (cannot use split method)
         start_char_index = 0
-        for i, column_size in enumerate(column_size):
-            digits = []
-            for j in range(buffer_size):
-                num = lines[j][start_char_index : start_char_index + column_size]
-                digits.append(num)
+        for i, column_size in enumerate(column_sizes):
+            for index in reversed(range(column_size)):
+                num = ""
+                for j in range(buffer_size):
+                    num += lines[j][start_char_index + index]
+                buffers[i].append(int(num.replace(" ", "")))
 
             start_char_index = start_char_index + column_size + 1
-
-            for index in reversed(range(column_size)):
-                number = int(
-                    "".join([digit[index] for digit in digits]).replace(" ", "")
-                )
-                buffers[i].append(number)
-
         print(compute(buffers, ops))
 
 
