@@ -5,7 +5,7 @@ INPUT = Path("inputs") / f"{FILE.stem}.txt"
 
 
 def output_joltage(battery_number: int):
-    #  I guessed part 2
+    # I guessed part 2
     total_joltage = 0
     with INPUT.open("r") as fp:
         for bank in fp.readlines():
